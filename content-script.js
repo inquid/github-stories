@@ -7,10 +7,20 @@ let progressBarIntervalId = null;
 let automaticSliderIntervalId = null;
 
 const emojis = {
+  made: '➕',
   starred: '⭐',
   'pushed to': '🚀',
   'started following': '🚶',
   forked: '🤓',
+  deleted: '❌',
+  'commented on': '💬',
+  left: '💬',
+  created: '🏁',
+  closed: '🚫',
+  opened: '✨',
+  merged: '📦',
+  released: '🏷',
+  bot: '🤖'
 };
 
 const AUTOMATIC_SCROLL_DELAY = 4200;
@@ -47,8 +57,13 @@ const handle = setInterval(() => {
 
       const themeID = Math.floor(Math.random() * 18); // 0 - 17
 
+      let userImageUrl = 'https://image.flaticon.com/icons/png/512/25/25231.png';
+      if(element.querySelector('.avatar.avatar-user')!=null){
+        userImageUrl = element.querySelector('.avatar.avatar-user').src;
+      }
+
       return {
-        userImageURL: element.querySelector('.avatar.avatar-user').src,
+        userImageURL: userImageUrl,
         userName,
         action,
         repoOrUserName,
@@ -322,6 +337,7 @@ function updateSingleStoryView(story, storyId, storyIndex) {
   contentObject.href = story.repoOrUserURL;
 
   const contentEmoji = storyViewer.querySelector('.story-view-content-emoji');
+  console.log('story action ->'+story.action+'<-');
   contentEmoji.innerText = emojis[story.action] || '';
 
   storyViewer.setAttribute('story-id', storyId);

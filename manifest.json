@@ -17,7 +17,8 @@
   "content_scripts": [
     {
       "matches": [
-        "https://github.com/"
+        "https://github.com/",
+        "https://github.com/orgs/*"
       ],
       "js": [
         "content-script.js"
