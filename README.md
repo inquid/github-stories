@@ -8,7 +8,7 @@ No uploads required. Just [install](#how-to-install) and visit [github.com](http
 
 ## How to Install
 
-1. [Download ZIP](https://github.com/chidiwilliams/github-stories/archive/master.zip) and unzip on your computer.
+1. [Download ZIP](https://github.com/inquid/github-stories/archive/master.zip) and unzip on your computer.
 
 2. Visit `chrome://extensions` (or click Menu -> Tools -> Extensions).
 
