@@ -7,7 +7,7 @@ let progressBarIntervalId = null;
 let automaticSliderIntervalId = null;
 
 const emojis = {
-  added: '🏼👋',
+  added: '👋',
   made: '➕',
   starred: '⭐',
   'pushed to': '🚀',
@@ -63,10 +63,17 @@ const handle = setInterval(() => {
         userImageUrl = element.querySelector('.avatar.avatar-user').src;
       }
 
+      let actionFull = "<b>HELLO WORLD</b>";
+
+      if(element.querySelector('.f6 mb-1') != null){
+        actionFull = element.querySelector('.f6 mb-1').innerHTML;
+      }
+
       return {
         userImageURL: userImageUrl,
         userName,
         action,
+        actionFull,
         repoOrUserName,
         repoOrUserURL: getGithubURL(repoOrUserName),
         themeID,
@@ -163,7 +170,7 @@ function getStoryViewer() {
   <div class="ex-progress-bar"></div>
   <div class="story-view-content">
     <div class="story-view-content-text">
-      <div>I <span class="story-view-content-action">starred</span></div>
+      <div>@<a class="story-view-user-name-inside"></a> <span class="story-view-content-action">starred</span></div>
       <div>
         <span class="story-view-content-object">
           <a href="${getGithubURL('vuejs/docs-next')}">vuejs/docs-next</a></span
@@ -325,6 +332,10 @@ function updateSingleStoryView(story, storyId, storyIndex) {
   const name = storyViewer.querySelector('.story-view-user-name');
   name.href = getGithubURL(story.userName);
   name.innerText = story.userName;
+
+  const nameOnStory = storyViewer.querySelector('.story-view-user-name-inside');
+  nameOnStory.href = getGithubURL(story.userName);
+  nameOnStory.innerText = story.userName;
 
   const content = storyViewer.querySelector('.story-view-content');
   content.setAttribute('theme', String(story.themeID));
