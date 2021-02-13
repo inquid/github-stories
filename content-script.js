@@ -7,6 +7,7 @@ let progressBarIntervalId = null;
 let automaticSliderIntervalId = null;
 
 const emojis = {
+  added: '🏼👋',
   made: '➕',
   starred: '⭐',
   'pushed to': '🚀',
