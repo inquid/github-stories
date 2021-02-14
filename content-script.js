@@ -24,11 +24,28 @@ const emojis = {
   bot: '🤖'
 };
 
+let time = 200;
 const AUTOMATIC_SCROLL_DELAY = 4200;
 const PROGRESS_BAR_UPDATE_DELAY = 100;
 const UPDATE_PROGRESS_BAR_VALUE =
-  100 / (AUTOMATIC_SCROLL_DELAY / PROGRESS_BAR_UPDATE_DELAY - 5);
+  time / (AUTOMATIC_SCROLL_DELAY / PROGRESS_BAR_UPDATE_DELAY - 5);
 let storyViewOpen = false;
+
+function getActionFullText(element){
+  let fullText = '';
+
+  if(element.getElementsByClassName('repo-description')[0] != null){
+    fullText += ' ' + element.getElementsByClassName('repo-description')[0].innerText;
+  }
+
+  if(element.getElementsByClassName('rpt-1')[0] != null){
+    fullText += ' ' + element.getElementsByClassName('pt-1')[0].innerText;
+  }
+
+  console.log(element);
+
+  return fullText;
+}
 
 const handle = setInterval(() => {
   let dashboardCards;
@@ -63,11 +80,7 @@ const handle = setInterval(() => {
         userImageUrl = element.querySelector('.avatar.avatar-user').src;
       }
 
-      let actionFull = "<b>HELLO WORLD</b>";
-
-      if(element.querySelector('.f6 mb-1') != null){
-        actionFull = element.querySelector('.f6 mb-1').innerHTML;
-      }
+      let actionFull = getActionFullText(element);
 
       return {
         userImageURL: userImageUrl,
@@ -154,9 +167,16 @@ function getGithubURL(resource) {
   return `https://github.com/${resource}`;
 }
 
+function pause() {
+  //alert();
+}
+
 function getStoryViewer() {
   const storyViewWrapperElem = document.createElement('div');
   storyViewWrapperElem.classList.add('story-view-wrapper', 'hidden');
+  storyViewWrapperElem.addEventListener("click", function(event) {
+    pause();
+  });
   storyViewWrapperElem.innerHTML = `<div class="story-view">
   <div class="story-view-user">
     <div class="story-view-user-detail">
@@ -173,9 +193,9 @@ function getStoryViewer() {
       <div>@<a class="story-view-user-name-inside"></a> <span class="story-view-content-action">starred</span></div>
       <div>
         <span class="story-view-content-object">
-          <a href="${getGithubURL('vuejs/docs-next')}">vuejs/docs-next</a></span
-        >!
+          <a href="${getGithubURL('vuejs/docs-next')}">vuejs/docs-next</a></span>!
       </div>
+      <div class="story-view-full-text"></div>
       <div class="story-view-content-emoji">⭐</div>
     </div>
 
@@ -310,7 +330,7 @@ function updateProgressBarProgress() {
 function updateProgressBar() {
   let initialValue = 0;
   let progressBarContainer = document.querySelector('.ex-progress-bar');
-  progressBarContainer.innerHTML = `<progress id="file" value="${initialValue}" max="100"> </progress>`;
+  progressBarContainer.innerHTML = `<progress id="file" value="${initialValue}" max="`+time+`"> </progress>`;
 
   if (progressBarIntervalId) clearInterval(progressBarIntervalId);
   progressBarIntervalId = setInterval(
@@ -341,7 +361,10 @@ function updateSingleStoryView(story, storyId, storyIndex) {
   content.setAttribute('theme', String(story.themeID));
 
   const contentAction = storyViewer.querySelector('.story-view-content-action');
-  contentAction.innerText = story.action;
+  contentAction.innerHTML = story.action;
+
+  const contentFullAction = storyViewer.querySelector('.story-view-full-text');
+  contentFullAction.innerHTML = story.actionFull;
 
   const contentObject = storyViewer.querySelector('.story-view-content-object')
     .firstElementChild;
